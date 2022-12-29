@@ -80,7 +80,7 @@ async function wipeDir(fpath) {
 
 // compile
 async function compile(fullpath, target) {
-    let command = `make ${target} APP_NAME="compiled.${target}"`;
+    let command = `make ${target} APP_NAME="compiled"`;
     // copy the makefile
     await fs.promises.copyFile(path.join(process.cwd(), 'Makefile'), path.join(fullpath, 'Makefile'));
     // run the command
