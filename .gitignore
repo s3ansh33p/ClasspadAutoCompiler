@@ -1,0 +1,14 @@
+# Ignore the node_modules directory
+node_modules/
+
+# Ignore the uploads directory
+uploads/
+
+# The file containing environment variables
+**/.env
+
+# package-lock.json
+package-lock.json
+
+# logs
+logs/

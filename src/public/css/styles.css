@@ -1,0 +1,36 @@
+body {
+    background-color: #242f3f;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* files */
+#file-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    border-bottom: 1px solid #2f3e4e;
+    cursor: pointer;
+}
+
+/* layout */
+.container {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 2rem);
+    margin: 1rem;
+    align-items: center;
+}

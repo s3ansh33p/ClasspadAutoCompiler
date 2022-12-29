@@ -1,0 +1,107 @@
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #242f3f;
+    color: #fff;
+    font-family: Montserrat, sans-serif
+}
+
+#error {
+    position: relative;
+    height: 100vh
+}
+
+#error .error {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%)
+}
+
+.error {
+    max-width: 410px;
+    width: 90%;
+    text-align: center
+}
+
+.error .error-code {
+    height: 280px;
+    position: relative;
+    z-index: -1
+}
+
+.error .error-code h1 {
+    font-family: Montserrat, sans-serif;
+    font-size: 230px;
+    margin: 0;
+    font-weight: 900;
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    background: url(../static/gradient.jpg) no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: cover;
+    background-position: center
+}
+
+.error.err-inner h2 {
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 0
+}
+
+.error.err-inner p {
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 30px;
+    margin-top: 0
+}
+
+.error.err-inner a {
+    font-size: 14px;
+    text-decoration: none;
+    text-transform: uppercase;
+    background: #214479;
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 40px;
+    color: #fff;
+    font-weight: 700;
+    -webkit-box-shadow: 0 4px 15px -5px #214479;
+    box-shadow: 0 4px 15px -5px #214479
+}
+
+@media only screen and (max-width:767px) {
+    .error .error-code {
+        height: 142px
+    }
+
+    .error .error-code h1 {
+        font-size: 112px
+    }
+}
+
+.return-btn {
+    border-radius: 10px;
+    background-color: #214479;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    padding: 8px;
+    width: 140px;
+    cursor: pointer;
+}

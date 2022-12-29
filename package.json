@@ -1,0 +1,24 @@
+{
+    "name": "classpad-autocompiler",
+    "version": "1.0.0",
+    "description": "Auto compile classpad II dev files to executable",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon index.js"
+    },
+    "author": "Sean McGinty <newfolderlocation@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "dotenv": "^11.0.0",
+        "ejs": "^3.1.6",
+        "express": "^4.17.2",
+        "express-session": "^1.17.3",
+        "morgan": "^1.10.0",
+        "multer": "*",
+        "nodemon": "^2.0.20",
+        "rotating-file-stream": "^3.0.2",
+        "util": "^0.12.4"
+    }
+}

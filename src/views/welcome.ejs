@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <link rel="icon" href="/public/static/favicon.ico" type="image/x-icon" />
+    <meta name="author" content="Sean" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>Home | Compiler</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="./public/css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <p>Upload folder to compile</p>
+            <form enctype="multipart/form-data" onsubmit="return uploadFiles()">
+                <input type="file" name="files" id="file" webkitdirectory mozdirectory />
+                <input type="submit" value="Upload" />
+            </form>
+
+            <div id="file-list">
+                <!-- list of files -->
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>  
+        const extFilters = ['.cpp', '.c', '.h', '.hpp', '.ld', '.s'];
+        const file = document.getElementById('file');
+        file.addEventListener('change', (e) => {
+            // clear file list
+            document.getElementById('file-list').innerHTML = '';
+            for (let i = 0; i < file.files.length; i++) {
+                // check extension
+                const ext = file.files[i].name.split('.').pop();
+                if (!extFilters.includes('.' + ext)) {
+                    console.log(file.files[i].name + ' is not a valid file (skipped)');
+                    continue;
+                }
+                // check file size
+                if (file.files[i].size > 1000000) {
+                    console.log(file.files[i].name + ' is too large (> 1MB)');
+                    continue;
+                }
+                const path = file.files[i].webkitRelativePath;
+                // remove first folder
+                const slicedPath = path.split('/').slice(1).join('/');
+                const fileName = path.split('/').pop();
+                const fileDiv = document.createElement('div');
+                // add class
+                fileDiv.classList.add('file-item');
+                fileDiv.innerHTML = slicedPath;
+                document.getElementById('file-list').appendChild(fileDiv);
+            }
+        });
+
+        function uploadFiles() {
+            const formData = new FormData();
+            for (let i = 0; i < file.files.length; i++) {
+                // check valid extension
+                const ext = file.files[i].name.split('.').pop();
+                if (extFilters.includes('.' + ext)) {
+                    formData.append('files', file.files[i]);
+                }
+            }
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            }).then(res => res.json())
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+            return false;
+        }
+
+    </script>
+
+
+</body>
+
+</html>
