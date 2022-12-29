@@ -56,6 +56,10 @@ async function getSingleDir(fpath) {
 
 // wipe directory
 async function wipeDir(fpath) {
+    // make sure the directory exists
+    if (!fs.existsSync(fpath)) {
+        fs.mkdirSync(fpath);
+    }
     return new Promise((resolve, reject) => {
         // delete all files in the directory, then remake the directory
         fs.rm(fpath, { recursive: true, force: true }, (err) => {

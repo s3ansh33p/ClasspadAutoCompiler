@@ -169,8 +169,15 @@ class App {
             setTimeout(async () => {
                 let folder = await getSingleDir(path.join(process.cwd(), 'uploads', user));
                 const target = "hhk";
-                await compile(path.join(process.cwd(), 'uploads', user, folder), target);
-                // serve the output file
+                try {
+                    await compile(path.join(process.cwd(), 'uploads', user, folder), target);
+                } catch (err) {
+                    return res.status(400).json({
+                        message: err.message,
+                        success: false
+                    });
+                }
+                    // serve the output file
                 setTimeout(() => {
                     res.download(path.join(process.cwd(), 'uploads', user, folder, 'compiled.' + target));
                 }, 2000);
