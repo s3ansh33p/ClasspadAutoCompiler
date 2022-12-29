@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <link rel="icon" href="/public/static/favicon.ico" type="image/x-icon" />
+    <meta name="author" content="Sean" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>Home | Compiler</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="./public/css/styles.css">
+</head>
+
+<body class="auth">
+    <!-- error message -->
+    <span id="err"></span>
+    <!-- login form -->
+    <form id="form" onsubmit="postAuth();">
+        <!-- username -->
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" placeholder="Username" required>
+        </div>
+        <!-- password -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+        </div>
+        <!-- submit button -->
+        <div class="form-group">
+            <button type="button" onclick="postAuth();" class="auth-btn">Login</button>
+        </div>
+    </form>
+
+    <script>
+        async function postAuth() {
+            // post form data
+            const response = await fetch('/login', {
+                method: 'POST',
+                body: JSON.stringify({
+                    username: document.querySelector('#username').value,
+                    password: document.querySelector('#password').value
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            // get response
+            const data = await response.json();
+            // check response
+            if (data.success) {
+                // redirect to panel
+                window.location.href = '/panel';
+            } else {
+                // display error
+                document.querySelector('#err').innerHTML = data.message;
+            }
+            return false;
+        }
+    </script>
+
+</body>
+
+</html>

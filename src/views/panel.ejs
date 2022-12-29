@@ -8,7 +8,7 @@
     <link rel="icon" href="/public/static/favicon.ico" type="image/x-icon" />
     <meta name="author" content="Sean" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>Home | Compiler</title>
+    <title>Panel | Compiler</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="./public/css/styles.css">
 </head>
@@ -16,7 +16,7 @@
 <body>
     <div class="container">
         <div>
-            <p>Upload folder to compile</p>
+            <p id="stat">Upload folder to compile</p>
             <form enctype="multipart/form-data" onsubmit="return uploadFiles()">
                 <input type="file" name="files" id="file" webkitdirectory mozdirectory />
                 <input type="submit" value="Upload" />
@@ -75,6 +75,7 @@
             }).then(res => res.json())
             .then(res => {
                 console.log(res);
+                document.getElementById('stat').innerHTML = res.message;
             })
             .catch(err => {
                 console.log(err);
