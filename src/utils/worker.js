@@ -7,8 +7,11 @@ async function runCommand(command) {
     return new Promise((resolve, reject) => {
         exec(command, (err, stdout, stderr) => {
             if (err) {
+                console.log(err)
                 reject(err);
             } else {
+                console.log(`Executing command: ${command}`);
+                console.log(stdout)
                 resolve(stdout);
             }
         });
@@ -79,14 +82,14 @@ async function wipeDir(fpath) {
 }
 
 // compile
-async function compile(fullpath, target) {
-    let command = `make ${target} APP_NAME="compiled"`;
+async function compile(fullpath) {
+    let command = `cd ${fullpath} && make all APP_NAME="compiled" SDK_DIR="/home/sean/hollyhock-2/sdk"`;
     // copy the makefile
     await fs.promises.copyFile(path.join(process.cwd(), 'Makefile'), path.join(fullpath, 'Makefile'));
     // run the command
     let res = await runCommand(command);
     // console.log(command);
-    return true;
+    return res;
 }
 
 // export functions

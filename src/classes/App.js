@@ -11,7 +11,7 @@ const sessions = require('express-session');
 require('dotenv').config();
 // require auth.json
 const auth = require('../../auth.json');
-const { getDirTree, wipeDir, getSingleDir, compile } = require('../utils/worker');
+const { getDirTree, wipeDir, getSingleDir, compile, runCommand } = require('../utils/worker');
 
 let accessLogStream = rfs.createStream('access.log', {
     interval: '1d', // rotate daily
@@ -168,20 +168,47 @@ class App {
 
             setTimeout(async () => {
                 let folder = await getSingleDir(path.join(process.cwd(), 'uploads', user));
-                const target = "hhk";
                 try {
-                    await compile(path.join(process.cwd(), 'uploads', user, folder), target);
+                    await compile(path.join(process.cwd(), 'uploads', user, folder));
                 } catch (err) {
                     return res.status(400).json({
                         message: err.message,
                         success: false
                     });
                 }
-                    // serve the output file
-                setTimeout(() => {
-                    res.download(path.join(process.cwd(), 'uploads', user, folder, 'compiled.' + target));
-                }, 2000);
-            }, 2000);
+                return res.status(200).json({
+                    message: `compiled.${target}`,
+                    success: true,
+                });
+            }, 200);
+        });
+
+        this.app.get('/download', authGuard, async function (req, res) {
+            // check target is valid
+            let target = req.query.target;
+            if (!target) {
+                return res.status(400).json({
+                    message: 'Missing target',
+                    success: false
+                });
+            }
+            if (!['hhk', 'bin'].includes(target)) {
+                return res.status(400).json({
+                    message: 'Invalid target',
+                    success: false
+                });
+            }
+            let user = req.session.user.username;
+            let folder = await getSingleDir(path.join(process.cwd(), 'uploads', user));
+            const fpath = path.join(process.cwd(), 'uploads', user, folder, 'compiled.' + target);
+            // check exists
+            if (!fs.existsSync(fpath)) {
+                return res.status(400).json({
+                    message: fpath + ' does not exist',
+                    success: false
+                });
+            }
+            res.status(200).download(fpath);
         });
 
         this.app.use((req, res) => {
@@ -190,7 +217,7 @@ class App {
     }
 
     async listen(fn) {
-        this.server.listen(process.env.EXPRESS_PORT, fn)
+        this.server.listen(process.env.EXPRESS_PORT, fn);
     }
 }
 

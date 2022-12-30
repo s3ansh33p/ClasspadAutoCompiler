@@ -69,18 +69,61 @@
                     formData.append('files', file.files[i]);
                 }
             }
+            document.getElementById('stat').innerHTML = `Uploading...`;
             fetch('/upload', {
                 method: 'POST',
                 body: formData
             }).then(res => res.json())
             .then(res => {
                 console.log(res);
-                document.getElementById('stat').innerHTML = res.message;
+                document.getElementById('stat').innerHTML = `<a href="#" onclick="dl()">(hhk)</a> | <a href="#" onclick="dl('bin')">(bin)</a>`;
             })
             .catch(err => {
                 console.log(err);
             });
             return false;
+        }
+
+        function dl(target = "hhk") {
+            downloadWithProgress('/download?target=' + target, 'compiled.' + target);
+        }
+
+        function downloadWithProgress(url, fileName) {
+            const startTime = new Date().getTime();
+
+            request = new XMLHttpRequest();
+
+            request.responseType = "blob";
+            request.open("get", url, true);
+            request.send(); 
+
+            request.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    const url = window.URL.createObjectURL(this.response);
+
+                    const anchor = document.createElement("a");
+                    anchor.href = url;
+                    anchor.download = fileName;
+                    document.body.appendChild(anchor);
+                    anchor.click();
+                } else if (this.readyState == 4 && this.status != 200) {
+                    alert("Error: " + this.status)
+                }
+            };
+
+            request.onprogress = function (e) {
+                const percent_complete = Math.floor((e.loaded / e.total) * 100);
+
+                const duration = (new Date().getTime() - startTime) / 1000;
+                const bps = e.loaded / duration;
+
+                const kbps = Math.floor(bps / 1024);
+
+                const time = Math.floor((e.total - e.loaded) / bps);
+                const seconds = time % 60;
+                const minutes = Math.floor(time / 60);
+                console.log(`${percent_complete}% (${kbps}kbps) ${minutes}m ${seconds}s`);
+            }
         }
 
     </script>
