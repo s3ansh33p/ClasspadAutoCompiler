@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
         cb(null, path.join(process.cwd(), 'uploads', user));
     },
     filename: function(req, file, cb) {
-        const extFilters = ['.cpp', '.c', '.h', '.hpp', '.ld', '.s'];
+        const extFilters = ['.cpp', '.c', '.h', '.hpp', '.s', '.asm'];
         let ext = path.extname(file.originalname);
         if (extFilters.indexOf(ext) == -1) {
             return cb(new Error('Invalid file extension'));
@@ -168,8 +168,9 @@ class App {
 
             setTimeout(async () => {
                 let folder = await getSingleDir(path.join(process.cwd(), 'uploads', user));
+                let stdout = '';
                 try {
-                    await compile(path.join(process.cwd(), 'uploads', user, folder));
+                    stdout = await compile(path.join(process.cwd(), 'uploads', user, folder));
                 } catch (err) {
                     return res.status(400).json({
                         message: err.message,
@@ -177,7 +178,7 @@ class App {
                     });
                 }
                 return res.status(200).json({
-                    message: `Compiled successfully`,
+                    message: stdout,
                     success: true,
                 });
             }, 200);
