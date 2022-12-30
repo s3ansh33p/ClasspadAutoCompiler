@@ -177,7 +177,7 @@ class App {
                     });
                 }
                 return res.status(200).json({
-                    message: `compiled.${target}`,
+                    message: `Compiled successfully`,
                     success: true,
                 });
             }, 200);
