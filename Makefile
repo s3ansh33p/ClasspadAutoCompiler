@@ -41,7 +41,7 @@ clean:
 	rm -f $(OBJECTS) $(APP_ELF) $(APP_BIN)
 
 $(APP_ELF): $(OBJECTS) $(SDK_DIR)/sdk.o linker_hhk.ld
-	$(LD) -T linker_hhk -o $@ $(LD_FLAGS) $(OBJECTS) $(SDK_DIR)/sdk.o
+	$(LD) -T linker_hhk.ld -o $@ $(LD_FLAGS) $(OBJECTS) $(SDK_DIR)/sdk.o
 	$(OBJCOPY) --set-section-flags .hollyhock_name=contents,strings,readonly $(APP_ELF) $(APP_ELF)
 	$(OBJCOPY) --set-section-flags .hollyhock_description=contents,strings,readonly $(APP_ELF) $(APP_ELF)
 	$(OBJCOPY) --set-section-flags .hollyhock_author=contents,strings,readonly $(APP_ELF) $(APP_ELF)
