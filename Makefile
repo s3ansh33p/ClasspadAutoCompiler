@@ -20,7 +20,7 @@ CXX:=sh4-elf-g++
 CXX_FLAGS:=-ffreestanding -fno-exceptions -fno-rtti -fshort-wchar -Wall -Wextra -O2 -I $(SDK_DIR)/include/ -I $(NEWLIB_DIR) -m4-nofpu
 
 LD:=sh4-elf-gcc
-LD_FLAGS:=-nostartfiles -m4-nofpu -Wno-undef -L$(SDK_DIR)/newlib/sh-elf/lib
+LD_FLAGS:=-nostartfiles -m4-nofpu -Wno-undef -L$(NEWLIB_DIR)
 
 READELF:=sh4-elf-readelf
 OBJCOPY:=sh4-elf-objcopy
